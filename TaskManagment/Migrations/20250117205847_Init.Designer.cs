@@ -11,8 +11,8 @@ using TaskManagment.Models;
 namespace TaskManagment.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20250117131318_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250117205847_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,8 +46,8 @@ namespace TaskManagment.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -58,9 +58,9 @@ namespace TaskManagment.Migrations
 
             modelBuilder.Entity("TaskManagment.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -72,7 +72,7 @@ namespace TaskManagment.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TaskManagment.Models.Todo", b =>
