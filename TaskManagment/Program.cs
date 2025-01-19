@@ -30,7 +30,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Add Todo Db context
 builder.Services.AddDbContext<TodoDbContext>(options => 
 {
-    options.UseSqlite("Data Source = ./tasks.db");
+    options.UseNpgsql(builder.Configuration.GetConnectionString("TasksDB"));
 });
 
 
