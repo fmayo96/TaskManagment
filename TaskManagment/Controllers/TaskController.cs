@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Diagnostics;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Security.Claims;
 using TaskManagment.Models;
 using TaskManagment.Services;
@@ -40,6 +38,15 @@ namespace TaskManagment.Controllers
             var newTask = await _todoService.CreateTask(task, userId);
             return (newTask == null) ? BadRequest() : Created();       
         }
+        [Authorize]
+        [HttpPut("complete/{id}")]
+        public async Task<ActionResult<Todo>> CompleteTask(int id)
+        {
+            var userId = GetUserId();
+            var task = await _todoService.CompleteTask(id, userId);
+            return (task is null)? NotFound() : Ok(task);
+        }
+        [Authorize]
         [HttpPut("update/{id}")]
         public async Task<ActionResult<Todo>> UpdateTask(int id, Todo updateTask)
         {
@@ -47,6 +54,7 @@ namespace TaskManagment.Controllers
             var task = await _todoService.UpdateTask(id, updateTask, userId);
             return (task==null)? NotFound() : Ok(task);
         }
+        [Authorize]
         [HttpDelete("delete/{id}")]
         public async Task<ActionResult<Todo>> DeleteTask(int id)
         {

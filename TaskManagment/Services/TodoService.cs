@@ -22,6 +22,14 @@ namespace TaskManagment.Services
             await _todoContext.SaveChangesAsync();
             return task;
         }
+        public async Task<Todo?> CompleteTask(int id, Guid userId)
+        {
+            var task = _todoContext.Todos.Where(t => t.UserId == userId).FirstOrDefault(t => t.Id == id);
+            if (task is null) return null;
+            task.IsCompleted = !task.IsCompleted;
+            await _todoContext.SaveChangesAsync();
+            return task;
+        }
         public async Task<Todo?> UpdateTask(int id, Todo updateTask, Guid userId)
         {
             var task = _todoContext.Todos.Where(t => t.UserId == userId).FirstOrDefault( t => t.Id == id);
